@@ -1,0 +1,35 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #333;
+    position: sticky;
+    /* Makes the navbar sticky */
+    top: 0;
+    /* Sticks the navbar to the top of the viewport */
+    z-index: 1000;
+    /* Ensures the navbar stays above other content */
+}
+
+.navList {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navList a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navList a:hover {
+    color: #ff6347;
+}
+
+.active {
+    border-bottom: 2px solid #ff6347;
+}

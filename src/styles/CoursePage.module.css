@@ -1,0 +1,36 @@
+.pageContainer {
+    background-color: #fff;
+    padding: 4rem 2rem;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.pageTitle {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.courseSlider {
+    display: flex;
+    overflow-x: auto;
+    padding: 5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #121212;
+    scroll-behavior: smooth;
+    background-color: #0070f3;
+}
+
+.courseSlider::-webkit-scrollbar {
+    height: 8px;
+}
+
+.courseSlider::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+
+}

@@ -1,0 +1,117 @@
+/* Container Styles */
+.container {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Page Title */
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #0070f3;
+}
+
+/* Blog Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Blog Card */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Title */
+.cardTitle {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+
+.cardDescription {
+    text-align: left;
+}
+
+/* Date */
+.date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Read More Link */
+.readMore {
+    align-self: flex-start;
+    text-decoration: none;
+    color: #0070f3;
+    font-weight: bold;
+    margin-top: auto;
+    transition: color 0.3s ease;
+}
+
+.readMore:hover {
+    color: #0056b3;
+}
+
+.singlePostContainer {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.postTitle {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #0070f3;
+}
+
+.postDate {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.postContent {
+    line-height: 1.6;
+}
+
+.postImage {
+    max-width: 100%;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.goBackButton {
+    margin-top: 2rem;
+    padding: 10px 20px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.goBackButton:hover {
+    background-color: #005bb5;
+}
