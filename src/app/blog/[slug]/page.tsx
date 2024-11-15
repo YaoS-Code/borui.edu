@@ -6,7 +6,8 @@ import remarkMath from 'remark-math';
 import 'katex/dist/katex.min.css';
 import styles from '@/styles/Blog.module.css';
 import Image from 'next/image';
-
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 type RichText = { plain_text: string };
 
 type NotionBlock = {
@@ -25,6 +26,7 @@ type NotionBlock = {
     external?: { url: string };
     caption?: RichText[];
   };
+  video?: { url: string };
 };
 
 // Updated type to handle partial responses
@@ -85,17 +87,35 @@ function BlockRenderer({ block }: { block: PartialNotionBlock }) {
       return <li>{block.bulleted_list_item?.rich_text?.[0]?.plain_text || ''}</li>;
     case 'numbered_list_item':
       return <li>{block.numbered_list_item?.rich_text?.[0]?.plain_text || ''}</li>;
-    case 'code':
-      return (
-        <pre className={styles.codeBlock}>
-          <code>{block.code?.rich_text?.[0]?.plain_text || ''}</code>
-        </pre>
-      );
+      case 'code':
+        return (
+          <SyntaxHighlighter language="javascript" style={okaidia}>
+            {block.code?.rich_text?.map((text) => text.plain_text).join('') || ''}
+          </SyntaxHighlighter>
+        );
     case 'equation':
       return (
         <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+          
           {block.equation?.expression || ''}
         </ReactMarkdown>
+      );
+    case 'divider':
+      return (
+        <hr></hr>
+      )
+    case 'video':
+      const videoUrl = (block.video as { external?: { url: string } })?.external?.url;
+      return (
+        <iframe
+          width="560"
+          height="315"
+          src={videoUrl}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
       );
     case 'image':
       const imageUrl = block.image?.file?.url || block.image?.external?.url;
