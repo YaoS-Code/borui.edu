@@ -1,8 +1,9 @@
 import { Client } from '@notionhq/client';
-import { PageObjectResponse, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+import { BlockObjectResponse, PageObjectResponse, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
+// Fetch blog posts from a Notion database
 export async function getBlogPosts(databaseId: string, options?: { cache: RequestCache }) {
   const response = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
     method: 'POST',
@@ -14,10 +15,8 @@ export async function getBlogPosts(databaseId: string, options?: { cache: Reques
     cache: options?.cache || 'no-store',
   });
 
-  // 使用 Notion API 的 `QueryDatabaseResponse` 类型
   const data: QueryDatabaseResponse = await response.json();
 
-  // 使用 PageObjectResponse 类型定义结果
   const posts = data.results
     .filter((page): page is PageObjectResponse => 'properties' in page)
     .map((page) => {
@@ -33,10 +32,8 @@ export async function getBlogPosts(databaseId: string, options?: { cache: Reques
 
   return posts;
 }
-
-// 获取单个博客内容
 export async function getBlogPostContent(pageId: string) {
-  const blocks = [];
+  const blocks: BlockObjectResponse[] = [];
   let cursor;
 
   do {
@@ -44,9 +41,47 @@ export async function getBlogPostContent(pageId: string) {
       block_id: pageId,
       start_cursor: cursor,
     });
-    blocks.push(...response.results);
+    blocks.push(...response.results.filter(result => 'type' in result));
     cursor = response.next_cursor;
   } while (cursor);
 
-  return blocks;
+  // Enrich table blocks with their rows
+  const enrichedBlocks = await Promise.all(
+    blocks.map(async (block) => {
+      if (block.type === 'table') {
+        const tableRows = await fetchTableRows(block.id);
+        return { ...block, table: { ...block.table, rows: tableRows } };
+      }
+      return block;
+    })
+  );
+
+  return enrichedBlocks;
 }
+
+// Helper function to fetch rows for a given table block
+async function fetchTableRows(tableId: string) {
+  const rows: BlockObjectResponse[] = [];
+  let cursor;
+
+  do {
+    const response = await notion.blocks.children.list({
+      block_id: tableId,
+      start_cursor: cursor,
+    });
+    rows.push(...(response.results as BlockObjectResponse[]));
+    cursor = response.next_cursor;
+  } while (cursor);
+
+  // Extract and format table row cells
+  const enrichedRows = rows
+    .filter(row => row.type === 'table_row')
+    .map((row) => ({
+      id: row.id,
+      cells: row.table_row?.cells || [],
+    }));
+    console.log(enrichedRows)
+  return enrichedRows;
+}
+
+
