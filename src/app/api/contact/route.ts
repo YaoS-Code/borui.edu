@@ -11,7 +11,9 @@ export async function GET() {
     try {
       await stat(uploadsDir);
     } catch (error) {
-      // 如果目录不存在，创建它
+      // 如果目录不存在，创建它  
+      console.error('Error reading gallery:', error);
+
       await mkdir(uploadsDir, { recursive: true });
     }
     
