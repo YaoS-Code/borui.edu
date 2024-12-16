@@ -146,7 +146,6 @@ function renderImage(imageBlock?: {
       height={450}
       className={styles.postImage}
       priority
-      placeholder="blur"
     />
   );
 }

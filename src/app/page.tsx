@@ -2,6 +2,7 @@ import Seo from '../utils/Seo';
 import Hero from '../components/Hero';
 import CourseCard from '../components/CourseCard';
 import FAQ from '../components/FAQ';
+import Gallery from '@/components/Gallery';
 
 export default function HomePage() {
   return (
@@ -33,6 +34,7 @@ export default function HomePage() {
         </div>
       </section>
       <FAQ />
+      <Gallery />
     </>
   );
 }
